@@ -28,7 +28,7 @@ cd log430-a25-labo1
 ### 2. Créez un fichier .env
 Créez un fichier `.env` basé sur `.env.example`. Dans le fichier `.env`, utilisez les mêmes identifiants que ceux mentionnés dans `docker-compose.yml`.
 
-> ⚠️ IMPORTANT : Si vous executez l'application sur votre ordinateur, utilisez les valeurs `localhost` ou `127.0.0.1` sur les variables `MYSQL_HOST` et `MONGODB_HOST`. Si vous executez l'application sur Docker, conservez les valeurs indiqués dans le fichier `.env.example.`. Dans un conteneur Docker, vous devez **toujours** indiquer le nom d'un conteneur (hostname) et non `localhost`.
+> ⚠️ IMPORTANT : Si vous executez l'application sur votre ordinateur, utilisez les valeurs `localhost` ou `127.0.0.1` sur les variables `MYSQL_HOST` et `MONGODB_HOST`. Si vous executez l'application sur Docker, conservez les valeurs indiqués dans le fichier `.env.example.`. Dans un conteneur Docker, vous devez **toujours** indiquer le nom (hostname) d'un service dans `docker-compose.yml` et non `localhost`.
 
 ### 3. Préparer l’environnement de développement
 Suivez les mêmes étapes que dans le laboratoire 00. Cependant, ne lancez pas le conteneur de manière itérative initialement. Utilisez plutôt `docker build` pour créer tous les services, y compris les bases de données que nous utiliserons dans cet exemple. Si la création est réussie, démarrez le conteneur en mode détaché avec `docker compose up -d`, puis passez au mode interactif avec `docker compose exec`.
