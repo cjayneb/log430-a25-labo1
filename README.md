@@ -91,6 +91,14 @@ CREATE TABLE IF NOT EXISTS products (
 );
 ```
 
+Ensuite, vous devez arrêter, reconstruire et redémarrer le conteneur Docker.
+```bash
+docker compose down -v 
+docker build -t labo1-store-manager .
+docker compose up -d
+docker compose exec store_manager_app python store_manager.py
+```
+
 Créez un nouvel Model, View, Controller et DAO pour `Product`. Utilisez une structure MVC similaire à `User`. Ajoutez les options `Montrer la liste d'items` et `Ajouter un item` dans `product_view.py`. Vous pouvez également ajouter une option de `Supprimer un item` au menu (facultatif). Si vous voulez, créez une classe `View` séparée uniquement pour imprimer toutes les options de menu. Veuillez utiliser les diagrammes UML disponibles dans le dossier `docs/views` comme référence pour l’implémentation.
 
 > 💡 **Question 3** : Comment avez-vous implémenté votre `product_view.py` ? Est-ce qu’il importe directement la `ProductDAO` ? Veuillez inclure le code pour illustrer votre réponse.
