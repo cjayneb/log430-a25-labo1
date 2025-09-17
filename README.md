@@ -39,7 +39,7 @@ docker compose exec store_manager_app python store_manager.py
 ```
 
 ### 4. Lancez l’application sur votre ordinateur
-
+Vous pouvez aussi exécuter l'application sur votre ordinateur si vous voulez. Dans ce cas, n'oubliez pas de mettre à jour votre fichier .env (voir étape 2 du Setup).
 ```bash
 cd src
 python store_manager.py
