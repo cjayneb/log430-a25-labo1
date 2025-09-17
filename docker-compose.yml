@@ -4,16 +4,25 @@ services:
     volumes:
       - .:/app
     depends_on:
-      - mysql
-      - mongo
+      mysql:
+        condition: service_healthy
+      mongo:
+        condition: service_started
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      MYSQL_DB_NAME: mydb
+      MONGODB_HOST: mongo
+      DB_USERNAME: user
+      DB_PASSWORD: pass
     stdin_open: true
-    tty: true  
+    tty: true
 
   mysql:
     image: mysql:8
     restart: unless-stopped
     ports:
-      - "3306:3306"
+      - "3307:3306"
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: mydb
@@ -21,6 +30,11 @@ services:
       MYSQL_PASSWORD: pass
     volumes:
       - ./db-init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uuser", "-ppass"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   mongo:
     image: mongo:6

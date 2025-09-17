@@ -11,14 +11,13 @@ from models.user import User
 class UserDAO:
     def __init__(self):
         try:
-            env_path = "../.env"
-            print(os.path.abspath(env_path))
-            load_dotenv(dotenv_path=env_path)
+            load_dotenv()
             db_host = os.getenv("MYSQL_HOST")
+            db_port = os.getenv("MYSQL_PORT")
             db_name = os.getenv("MYSQL_DB_NAME")
             db_user = os.getenv("DB_USERNAME")
-            db_pass = os.getenv("DB_PASSWORD")    
-            self.conn = mysql.connector.connect(host=db_host, user=db_user, password=db_pass, database=db_name) 
+            db_pass = os.getenv("DB_PASSWORD")
+            self.conn = mysql.connector.connect(host=db_host, user=db_user, password=db_pass, database=db_name, port=db_port) 
             self.cursor = self.conn.cursor()
         except FileNotFoundError as e:
             print("Attention : Veuillez créer un fichier .env")
@@ -40,13 +39,23 @@ class UserDAO:
         self.conn.commit()
         return self.cursor.lastrowid
 
-    def update(self, user):
+    def update(self, user: User):
         """ Update given user in MySQL """
-        pass
+        self.cursor.execute(
+            "UPDATE users SET name = %s, email = %s WHERE id = %s",
+            (user.name, user.email, user.id)
+        )
+        self.conn.commit()
+        return self.cursor.lastrowid
 
     def delete(self, user_id):
         """ Delete user from MySQL with given user ID """
-        pass
+        self.cursor.execute(
+            "DELETE FROM users WHERE id = %s",
+            (user_id,)
+        )
+        self.conn.commit()
+        return self.cursor.rowcount
 
     def delete_all(self): #optional
         """ Empty users table in MySQL """

@@ -31,8 +31,9 @@ def test_user_update():
 def test_user_delete():
     user = User(None, 'Douglas Engelbart', 'engelbart@example.com')
     assigned_id = dao.insert(user)
-    dao.delete(assigned_id)
+    nb_deleted_rows = dao.delete(assigned_id)
 
     user_list = dao.select_all()
-    emails = [u.email for u in user_list]
-    assert user.email not in emails
+    ids = [u.id for u in user_list]
+    assert assigned_id not in ids
+    assert nb_deleted_rows == 1
