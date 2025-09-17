@@ -80,8 +80,8 @@ Modifiez `test_user.py` pour utiliser `UserDAOMongo` en lieu de `UserDAO`, puis 
 
 > 💡 **Question 2** : Quelles commandes avez-vous utilisées pour effectuer les opérations dans MongoDB ? Avez-vous uniquement utilisé Python ou également du SQL ? Veuillez inclure le code pour illustrer votre réponse.
 
-### 3. Nouveau tableau : Products
-Insérez le code SQL pour créer le tableau `products` dans `db-init/init.sql`. Ce fichier sera executé a chaque fois qu'on démarre la conteneur.
+### 3. Nouvelle table : Products
+Insérez le code SQL pour créer la table `products` dans `db-init/init.sql`. Ce fichier sera executé a chaque fois qu'on démarre la conteneur.
 ```sql
 CREATE TABLE IF NOT EXISTS products (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -100,6 +100,8 @@ docker compose exec store_manager_app python store_manager.py
 ```
 
 Créez un nouvel Model, View, Controller et DAO pour `Product`. Utilisez une structure MVC similaire à `User`. Ajoutez les options `Montrer la liste d'items` et `Ajouter un item` dans `product_view.py`. Vous pouvez également ajouter une option de `Supprimer un item` au menu (facultatif). Si vous voulez, créez une classe `View` séparée uniquement pour imprimer toutes les options de menu. Veuillez utiliser les diagrammes UML disponibles dans le dossier `docs/views` comme référence pour l’implémentation.
+
+N'oubliez pas la création des tests pour valider `ProductDAO`. Le fichier de test est dans le répertoire `src/tests/test_product.py`. Vous pouvez utilizer `src/tests/test_user.py` comme référence de test.
 
 > 💡 **Question 3** : Comment avez-vous implémenté votre `product_view.py` ? Est-ce qu’il importe directement la `ProductDAO` ? Veuillez inclure le code pour illustrer votre réponse.
 
