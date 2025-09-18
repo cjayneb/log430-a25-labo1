@@ -32,8 +32,6 @@ jobs:
           MONGO_INITDB_DATABASE: store_manager
         ports:
           - 27017:27017
-        volumes:
-          - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
 
     steps:
       - name: Checkout code
@@ -53,6 +51,18 @@ jobs:
         run: |
           until mysqladmin ping -h127.0.0.1 -P3306 -uuser -ppass --silent; do
             echo "Waiting for MySQL..."
+            sleep 5
+          done
+
+      - name: Wait for MongoDB
+        run: |
+          curl -fsSL https://pgp.mongodb.com/server-6.0.asc | sudo tee /etc/apt/trusted.gpg.d/mongodb-server-6.0.asc
+          echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
+          sudo apt-get update
+          sudo apt-get install -y mongodb-mongosh
+          for i in {1..10}; do
+            mongosh "mongodb://user:pass@127.0.0.1:27017/admin" --eval "db.adminCommand('ping')" && break
+            echo "Waiting for MongoDB..."
             sleep 5
           done
 
