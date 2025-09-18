@@ -56,27 +56,6 @@ jobs:
             sleep 5
           done
 
-      - name: Wait for MongoDB
-        run: |
-          python - <<EOF
-          import time
-          import pymongo
-          for _ in range(30):
-              try:
-                  client = pymongo.MongoClient("mongodb://user:pass@mongo:27017/?authSource=admin")
-                  client.admin.command('ping')
-                  print("MongoDB is ready!")
-                  break
-              except Exception as e:
-                  print("Waiting for MongoDB...")
-                  time.sleep(2)
-          else:
-              raise RuntimeError("MongoDB did not start in time")
-          EOF
-        env:
-          MONGO_INITDB_ROOT_USERNAME: user
-          MONGO_INITDB_ROOT_PASSWORD: pass
-
       - name: Run init.sql
         run: mysql -h 127.0.0.1 -P 3306 -uuser -ppass mydb < ./db-init/init.sql
 
