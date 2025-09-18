@@ -1,0 +1,49 @@
+name: MongoDB Test
+
+on: [push, pull_request]
+
+jobs:
+  test-mongo:
+    runs-on: ubuntu-latest
+
+    services:
+      mongo:
+        image: mongo:6
+        env:
+          MONGO_INITDB_ROOT_USERNAME: user
+          MONGO_INITDB_ROOT_PASSWORD: pass
+        ports:
+          - 27017:27017
+        volumes:
+          - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+        options: >-
+          --health-cmd="mongosh --username user --password pass --eval 'db.adminCommand(\"ping\")' --authenticationDatabase admin"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Wait for MongoDB
+        run: |
+          for i in {1..10}; do
+            mongosh "mongodb://user:pass@mongo:27017/admin" --eval "db.adminCommand('ping')" && break
+            echo "Waiting for MongoDB..."
+            sleep 5
+          done
+
+      - name: Run MongoDB test
+        working-directory: ./src
+        run: python -m pytest -v test_mongo_connection.py
