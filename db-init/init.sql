@@ -1,3 +1,6 @@
+CREATE DATABASE IF NOT EXISTS mydb;
+USE mydb;
+
 -- Créer le tableau Users
 CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
