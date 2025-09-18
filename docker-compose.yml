@@ -13,6 +13,8 @@ services:
       MYSQL_PORT: 3306
       MYSQL_DB_NAME: mydb
       MONGODB_HOST: mongo
+      MONGODB_DB_NAME: store_manager
+      MONGODB_PORT: 27017
       DB_USERNAME: user
       DB_PASSWORD: pass
     stdin_open: true
@@ -44,8 +46,6 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: user
       MONGO_INITDB_ROOT_PASSWORD: pass
+      MONGO_INITDB_DATABASE: store_manager
     volumes:
-      - mongo-data:/data/db
-
-volumes:
-  mongo-data:
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
