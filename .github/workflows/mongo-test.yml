@@ -12,15 +12,9 @@ jobs:
         env:
           MONGO_INITDB_ROOT_USERNAME: user
           MONGO_INITDB_ROOT_PASSWORD: pass
+          MONGO_INITDB_DATABASE: store_manager
         ports:
           - 27017:27017
-        volumes:
-          - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
-        options: >-
-          --health-cmd="mongosh --username user --password pass --eval 'db.adminCommand(\"ping\")' --authenticationDatabase admin"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=5
 
     steps:
       - name: Checkout code
