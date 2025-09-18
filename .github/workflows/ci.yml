@@ -56,13 +56,6 @@ jobs:
             sleep 5
           done
 
-      - name: Wait for MongoDB
-        run: |
-          until mongosh --host 127.0.0.1 --port 27017 -u user -p pass --eval "db.runCommand({ ping: 1 })"; do
-            echo "Waiting for MongoDB..."
-            sleep 5
-          done
-
       - name: Run tests
         working-directory: ./src
         env:
