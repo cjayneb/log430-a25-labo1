@@ -59,10 +59,10 @@ jobs:
       - name: Run tests
         working-directory: ./src
         env:
-          MYSQL_HOST: mysql
+          MYSQL_HOST: 127.0.0.1
           MYSQL_PORT: 3306
           MYSQL_DB_NAME: mydb
-          MONGODB_HOST: mongo
+          MONGODB_HOST: 127.0.0.1
           MONGODB_PORT: 27017
           MONGODB_DB_NAME: store_manager
           DB_USERNAME: user
