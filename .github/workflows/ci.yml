@@ -56,6 +56,10 @@ jobs:
             sleep 5
           done
 
+      - name: Verify MySQL tables
+        run: |
+          mysql -h127.0.0.1 -P3306 -uuser -ppass -e "SHOW TABLES IN mydb;"
+
       - name: Run tests
         working-directory: ./src
         env:
