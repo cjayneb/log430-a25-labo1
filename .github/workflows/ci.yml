@@ -56,6 +56,13 @@ jobs:
             sleep 5
           done
 
+      - name: Wait for MongoDB
+        run: |
+          until nc -z 127.0.0.1 27017; do
+            echo "Waiting for MongoDB..."
+            sleep 2
+          done
+
       - name: Run init.sql
         run: mysql -h 127.0.0.1 -P 3306 -uuser -ppass mydb < ./db-init/init.sql
 
