@@ -1,7 +1,7 @@
 from pymongo import MongoClient
 
 def test_mongo_connection():
-    client = MongoClient("mongodb://user:pass@mongo:27017/?authSource=admin")
+    client = MongoClient("mongodb://user:pass@127.0.0.1:27017/?authSource=admin")
     db = client["store_manager"]
     users = list(db.users.find())
     assert len(users) >= 2
