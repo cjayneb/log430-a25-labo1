@@ -56,6 +56,9 @@ jobs:
             sleep 5
           done
 
+      - name: Run init.sql
+        run: mysql -h 127.0.0.1 -P 3306 -uuser -ppass mydb < ./db-init/init.sql
+
       - name: Verify MySQL tables
         run: |
           mysql -h127.0.0.1 -P3306 -uuser -ppass -e "SHOW TABLES IN mydb;"
